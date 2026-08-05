@@ -1,73 +1,98 @@
-# Generative_Adversarial_Networks Coursework
+# GAN Coursework — Synthetic & Real-World Data Generation
 
-**Module:** 7COM1079 Coursework 2 · **Notebook:** `Final_Code_GAN_Padhu.ipynb` 
+**Main Notebook:** `Final_Code_GAN_Padhu.ipynb`
 
----
-
-### Section index
-
-| # | Task | Data | Model | Stack |
-|---|------|------|-------|-------|
-| 1 | GANs from scratch (2D) | sine · noisy parametric curve `sin(2x)+0.3cos(5x)+ε` · arch study | MLP GAN | PyTorch |
-| 2.1 | Medical image synthesis | OCTMNIST | DCGAN + conditional GAN | TensorFlow/Keras |
-| 2.2 | Network-traffic synthesis | CICIDS 2017 | Dense feature-vector GAN + full-day run | TensorFlow/Keras |
-| 2.3 | Sketch synthesis | QuickDraw (cake · cat · house) | DCGAN | PyTorch |
-
-*Part 1 architecture study:* depth-2 **ReLU** baseline vs depth-4 **ELU** generator, same target.
+This project explores Generative Adversarial Networks across synthetic, image, network-traffic and sketch data. The work starts with a GAN built from scratch and then moves into three practical GAN applications.
 
 ---
 
-### Fixed parameters
+## Experiments
 
-| Field | Value |
-|---|---|
-| PyTorch/NumPy seed | `GLOBAL_SEED = 2025` |
-| TensorFlow seed | `TF_SEED = 2026` |
-| Image size | 32 × 32 |
-| Evaluation | loss curves · real-vs-fake grids · FID (images) · PCA/t-SNE + moment gaps (tabular) |
-| Runtime outputs | `results/` (auto-created, untracked) |
+| Part    | Experiment                | Dataset                            | Implementation                |
+| ------- | ------------------------- | ---------------------------------- | ----------------------------- |
+| **1**   | 2D distribution learning  | Sine wave + noisy parametric curve | PyTorch MLP GAN               |
+| **2.1** | Retinal image generation  | OCTMNIST                           | TensorFlow/Keras DCGAN & cGAN |
+| **2.2** | Synthetic network traffic | CICIDS 2017                        | TensorFlow/Keras Dense GAN    |
+| **2.3** | Sketch generation         | QuickDraw                          | PyTorch DCGAN                 |
 
----
+Part 1 also investigates architectural changes by comparing a **2-layer ReLU generator** with a deeper **4-layer ELU generator** on the same target distribution.
 
-### Files
-
-| Path | Purpose |
-|---|---|
-| `Final_Code_GAN_Padhu.ipynb` | all modelling, training, figures, metrics |
-| `requirements.txt` | dependency list |
+For QuickDraw, the main birthday-cake experiment is extended to **cat** and **house** sketches. The CICIDS experiment is similarly extended from Wednesday traffic to the complete set of daily files.
 
 ---
 
-### Install & run
+## Evaluation
+
+Different evaluation methods are used depending on the data:
+
+* **Images:** generated sample grids, training curves and FID
+* **Network traffic:** PCA/t-SNE visualisation and distribution moment gaps
+* **2D experiments:** real/generated distribution plots and adversarial loss behaviour
+
+### Main Results
+
+| Experiment                                |              Result |
+| ----------------------------------------- | ------------------: |
+| Sine GAN — discriminator / generator loss |   ≈ **1.38 / 0.70** |
+| OCTMNIST — FID ↓                          |           **39.23** |
+| CICIDS Wednesday — mean / std gap ↓       | **0.1576 / 0.2067** |
+| CICIDS All Days — mean / std gap ↓        | **0.1300 / 0.1483** |
+| QuickDraw House — FID ↓                   |           **26.44** |
+| QuickDraw Cake — FID ↓                    |           **34.29** |
+| QuickDraw Cat — FID ↓                     |           **38.79** |
+
+---
+
+## Setup
 
 ```bash
-python -m venv venv && source venv/bin/activate     # Windows: venv\Scripts\activate
+python -m venv venv
+```
+
+Activate the environment:
+
+```bash
+# Linux / macOS
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
+```
+
+Install the required packages:
+
+```bash
 pip install -r requirements.txt
 ```
-Then run all cells in order (the first cell also self-installs the packages).
 
-| Dataset | Retrieval |
-|---|---|
-| OCTMNIST | `medmnist`, auto on first use |
-| CICIDS 2017 | `kagglehub` (Kaggle token needed once); 8 daily CSVs located + merged automatically |
-| QuickDraw | direct download from Google Cloud Storage |
+Then open `Final_Code_GAN_Padhu.ipynb` and execute the notebook from top to bottom.
+
+The initial setup cell can also install missing dependencies automatically.
 
 ---
 
-### Results
+## Data & Reproducibility
 
-| Metric | Value |
-|---|---|
-| Part 1 sine — D / G at convergence | ≈ 1.38 / 0.70 (near 2ln2 / ln2) |
-| 2.1 OCTMNIST DCGAN — FID | **39.23** |
-| 2.2 CICIDS Wednesday — mean / std gap | **0.1576 / 0.2067** |
-| 2.2 CICIDS all-days — mean / std gap | **0.1300 / 0.1483** |
-| 2.3 QuickDraw — FID (house / cake / cat) | **26.44 / 34.29 / 38.79** |
+**OCTMNIST** is retrieved through `medmnist`, **CICIDS 2017** through `kagglehub`, and **QuickDraw** sketches are downloaded from Google Cloud Storage.
+
+For CICIDS, the notebook automatically identifies and combines the eight daily CSV files for the full-dataset extension.
+
+Experiments use fixed seeds:
+
+* PyTorch / NumPy: `2025`
+* TensorFlow: `2026`
+* Image resolution: `32 × 32`
+
+Figures and other runtime outputs are written to the automatically created `results/` directory.
 
 ---
 
-### Label note
+### CICIDS Label Clarification
 
-The brief says "DDoS", but Wednesday's attacks are single-source **DoS** (Hulk, GoldenEye,
-slowloris, Slowhttptest). Real DDoS lives in the Friday file and only enters via the
-all-days extension; Wednesday is modelled as BENIGN vs DoS as named.
+Although the coursework brief refers to DDoS traffic, the Wednesday CICIDS 2017 data contains **DoS attacks** such as Hulk, GoldenEye, slowloris and Slowhttptest. Therefore, the Wednesday experiment is treated as **BENIGN vs DoS**.
+
+DDoS samples occur in the Friday data and are incorporated when the analysis is extended to all available days.
+
+---
+
+The notebook contains the complete modelling workflow, training process, generated samples, visualisations and quantitative evaluation used for the coursework.
