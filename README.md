@@ -1,6 +1,6 @@
-# GAN Coursework (Retinal · Traffic · Sketch)
+# Generative_Adversarial_Networks Coursework
 
-**Module:** 7COM1079 Coursework 2 · **Notebook:** `GAN_Assignment_Set3_Final.ipynb` · **Runtime:** GPU + internet
+**Module:** 7COM1079 Coursework 2 · **Notebook:** `Final_Code_GAN_Padhu.ipynb` 
 
 ---
 
@@ -33,9 +33,7 @@
 
 | Path | Purpose |
 |---|---|
-| `GAN_Assignment_Set3_Final.ipynb` | all modelling, training, figures, metrics |
-| `GAN_Assignment_Report_Set 3.docx` | written report (6–8 pp.) — *not modified by the code* |
-| `Set 3 Result Images/` | exported figures used in the report |
+| `Final_Code_GAN_Padhu.ipynb` | all modelling, training, figures, metrics |
 | `requirements.txt` | dependency list |
 
 ---
