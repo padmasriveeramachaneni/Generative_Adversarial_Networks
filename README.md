@@ -1,4 +1,4 @@
-# GAN Coursework — Synthetic & Real-World Data Generation
+# Building Generative Adversarial Networks from Scratch and Applying Them to Real-World Problems
 
 **Main Notebook:** `Final_Code_GAN_Padhu.ipynb`
 
